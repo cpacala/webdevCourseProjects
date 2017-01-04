@@ -1,0 +1,39 @@
+<!-- Part 2 -->
+<div class="container">
+	<article>
+		<h1>Part 2: The Embed API</h1>
+		<section>
+			<h2>Starting off Easy</h2>
+			<p>
+				<div>Time to start off with the simplest way to embed a map in your page: the Embed API. It's as simple as creating an iframe and setting the src attribute to your HTTP request URL. For example, if I wanted to show the Empire State Building on the map, I would use the following:</div>
+				
+				<code class = "prettyprint">
+					<ol>
+						<li>&ltiframe </li>
+						<li>&nbsp&nbspwidth="600"</li>
+						<li>&nbsp&nbspheight="450"</li>
+						<li>&nbsp&nbspframeborder="0" style="border:0"</li>
+						<li>&nbsp&nbspsrc="https://www.google.com/maps/embed/v1/place?key=<strong>APIKEY</strong>&q=Empire+State+Building,NYC+NY" allowfullscreen&gt</li>
+						<li>&lt/iframe&gt</li>
+					</ol>
+				</code>
+			</p>
+			<p>
+				<div>Which would give me:</div>
+			
+				<iframe
+					width="600"
+					height="450"
+					frameborder="0" style="border:0"
+					src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIpR-L5YA-rhEHurG4PxYcVUvfrcTR8go&q=Empire+State+Building,NYC+NY" allowfullscreen>
+				</iframe>
+				<div>Note, you do need to set up your API as an embed map API by following <a href = "https://console.developers.google.com/flows/enableapi?apiid=maps_embed_backend&keyType=CLIENT_SIDE&reusekey=true">this link</a>. It will update your key to allow embed API requests.<div>
+			</p>
+			<p>
+				Now, there are a few things you can pass in the URL to change how your map appears. I chose to use the "place" mode to show the Empire State Building. However, you can replace "place" in the URL with directions, search, view, or streetview to get a different map with different functionality. The URL will change slightly (e.g. you need a start and end destination if you choose the directions mode) but the format for the iframe remains essentially the same. Google's documentation covers each of these modes in detail, as well as providing examples <a href = "https://developers.google.com/maps/documentation/embed/guide">here</a> so, if you are interested, you can look at how they format the other URLs. Instead, we are going to move on to the more complex, and more interesting, JavaScript API.
+			</p>
+		</section>
+	</article>
+	<a href="/Part1" class="btn btn-default">Part 1</a>
+	<a href="/Part3" class="btn btn-default pull-right">Part 3</a>
+</div>

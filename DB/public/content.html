@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>AJAX</title>
+	</head>
+	<body>
+		<!-- Add Workout Form -->
+		<form method = "POST" action = "/addRow">
+			<fieldset>
+				<legend>Add Workout</legend>
+				<label>Exercise: 
+					<input type="text" name="exercise" id="exercise">
+				</label>
+				<br />
+				<label>Reps: 
+					<input type="number" name="reps" id="reps">
+				</label>
+				<br />
+				<label>Weight: 
+					<input type="number" name="weight" id="weight">
+				</label>
+				<br />
+				<label>Date: 
+					<input type="text" name="date" id="date">
+				</label>
+				<br />
+				<label>lbs(1) or kg(0): 
+					<input type="number" name="lbs" id="lbs">
+				</label>
+				<br />
+				<input type="submit" id="addExercise" value="Add Workout">
+			</fieldset>
+		</form>
+		
+		<!-- Table to display data -->
+		<div>
+			<table>
+				<caption>.</caption>
+				<tbody id = 'tbl'>
+					<tr id="tblhead">
+						<th>Exercise</th>
+						<th>Reps</th>
+						<th>Weight</th>
+						<th>Date</th>
+						<th>lbs or kg</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script src = "scripts.js"></script>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- Part 1 -->
+<div class="container">
+	<article>
+		<h1>Part 1: Getting Your API Key</h1>
+		<section>
+			<h2>The Setup before the Code</h2>
+			<p>
+				This section with show you how to get an API key from Google, which is needed to use their API.
+			</p>
+			<p>
+				This part can be daunting for some users. Not because it is difficult, but because of the pricing and plans available. Don't worry though, the API is free until you start getting a large amount of traffic!
+			</p>
+			<p>
+				The first thing you need to do is go to <a href = "https://console.developers.google.com/flows/enableapi?apiid=maps_backend&keyType=CLIENT_SIDE&reusekey=true">this page</a>. There you will be prompted to login or to select a user if you are already logged into a Google Account (and have more than one linked account). If you don't have an account, you will need to create one.
+			</p>
+			<p>
+				Once you have finished logging in, you will be prompted to add your key to an existing project or create a new project. I am assuming - since you are following this guide - that you do not have any projects created, so create a new one. When you are finished, you should see a page like this: 
+			</p>
+			<div>
+				<img class="img-responsive" src = "img/createprj.png">
+			</div>
+			<p>
+				You are going to be using the Google Maps JavaScript API and will be calling the API either from a Web Browser or a Web Server. Server keys should only be used on a server - <strong>never use them where someone can see your code</strong>. Browser keys are used when the key can be seen by users (your application runs on the client) and you can whitelist domains so people can't steal and use your key. If you are using a server key, add your server's IP to the "Accept requests from these server IP addresses" textbox. If you are using a Browser Key, add your domain to the textbox. You can leave these blank for now but keep in mind that this means anyone can use your key and Google will not block their requests.
+			</p>
+			<p>
+				At this point you should have your key! The only thing left to mention is the payment plan. Using the simplest Embed API is free with no cap. Using the Javascript API is free until you exceed 25,000 map loads per day for 90 days. And finally, the Web Services APIs (things like the Geocoding API) are free until you pass 2,500 requests in a day. You can see the full pricing plans <a href = "https://developers.google.com/maps/pricing-and-plans/">here</a>. The pertinent parts are also shown below.
+			</p>
+			<div>
+				<img class="img-responsive" src = "img/price.png">
+			</div>
+		</section>
+	</article>
+	<a href="/" class="btn btn-default">Intro</a>
+	<a href="/Part2" class="btn btn-default pull-right">Part 2</a>
+</div>

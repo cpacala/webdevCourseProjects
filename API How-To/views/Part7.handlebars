@@ -1,0 +1,28 @@
+<!-- Part 7 -->
+<div class="container">
+	<article>
+		<h1>Part 7: Where to go From Here</h1>
+		<section>
+			<h2>Some Ideas for Projects</h2>
+			<p>
+				This was a fairly basic introduction to the features of the Google Maps API. Building off of the ideas in this How-To, you could create much more user-friendly and useful apps.
+			</p>
+			<p>
+				The most useful change to make for this would be to create a server-side app that would be able to store the information a user provides. You would need to create a server side API key, then convert the client-side JavaScript for creating and removing list items into server-side functions. You could leave the load location function as a client-side function however.
+			</p>
+			<p>
+				In terms of easier changes to make just to get more familiar with the API, you could modify the code to change the view zoom based on the recommended viewport returned by the Geocoder. This would require storing the viewport as a second data attribute and setting the view when adding and loading a location.
+			</p>
+			<p>
+				You could also modify the function to store directions between two points instead of just showing each point. This would require storing the start and endpoints instead of a single point. You would also need to use Google's <a href="https://developers.google.com/maps/documentation/javascript/directions>Directions Service</a> and pass either two string addresses or two LatLng objects to the Directions Service.
+			</p>
+			<p>
+				Finally, you could try to implement one of the JavaScript API libraries like the <a href="https://developers.google.com/maps/documentation/javascript/drawinglayer">Drawing Layer Library</a> or the <a href="https://developers.google.com/maps/documentation/javascript/visualization">Visualization Library</a> to allow users to draw on the maps or modify the appearance of the maps with heatmaps respectively.
+			</p>
+			<p>
+				Good Luck!
+			</p>
+		</section>
+	</article>
+	<a href="/Part6" class="btn btn-default">Part 6</a>
+</div>

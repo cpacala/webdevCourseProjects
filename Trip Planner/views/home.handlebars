@@ -1,0 +1,31 @@
+<h1>Here is your current trip {{name}}!</h1>
+<h2>You have {{tripCount}} routes on your trip:</h2>
+
+<form method = "post">
+	<input type = "text" name = "sNum" id = "startNum">
+	<input type = "text" name = "sStreet" id = "startSt">
+	<input type = "text" name = "sCity" id = "startCity">
+	<input type = "text" name = "sState" id = "startState">
+	<input type = "text" name = "sCountry" id = "startCountry">
+	</br>
+	<input type="submit" name="Add Route" value="Add Route">
+</form>
+
+{{#if trip}}
+
+<p>
+{{#each trip}}
+	<div>
+		{{#if this.num}}{{this.num}}, {{/if}}
+		{{#if this.street}}{{this.street}}, {{/if}}
+		{{#if this.city}}{{this.city}}, {{/if}}
+		{{#if this.state}}{{this.state}}, {{/if}}
+		{{#if this.country}}{{this.country}}{{/if}}
+	</div>
+	
+	<div></div>
+		
+{{/each}}
+</p>
+
+{{/if}}

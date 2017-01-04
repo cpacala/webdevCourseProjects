@@ -1,0 +1,18 @@
+<h1>GET Request Received</h1>
+
+<ul>
+	{{#if getList}}
+	{{#each getList}}
+		<li>Key: {{this.key}}, Value: {{this.value}} </li>
+	{{/each}}
+	{{/if}}
+</ul>
+
+
+<h1>POST Request Received</h1>
+
+<ul>
+	{{#each postList}}
+		<li>Key: {{this.key}}, Value: {{this.value}} </li>
+	{{/each}}
+</ul>

@@ -1,0 +1,173 @@
+<!-- Part 6 -->
+<div class="container">
+	<article>
+		<h1>Part 6: Putting it Together</h1>
+		<section>
+			<h2>Combining What We Learned</h2>
+			<p>
+				Time to build our trip planner. To do it, we are going to allow people to add an address to a list of trip nodes. Every time a node is added, the map will update to the current node. Each list item will have a button to load it into the map and a button to delete the node. There will also be a hidden div that will store the LatLng object returned by the geocoder. This means there will be fewer calls to the geocoder as you can call the JavaScript API directly. An alternative would be to store the placeID and call the placeID API.
+			</p>
+			<div>First, the HTML:</div>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>&ltform method="post"&gt</li>
+					<li>&nbsp&nbsp&ltlegend&gtEnter an address to add to your trip:&lt/legend&gt</li>
+					<li>&nbsp&nbsp&ltinput type="text" name="address" id="address"</li>
+					<li>&nbsp&nbsp&ltinput type="submit" name="Add Location" value="Add Location"&gt</li>
+					<li>&lt/form&gt</li>
+					<li>&ltdiv id = "map" style="width: 600px; height: 450px;"&gt&lt/div&gt</li>
+					<li>&ltul id="tripList"&gt&lt/ul&gt</li>
+				</ol>
+			</code>
+
+			<p>
+				There are three parts to this. The first just creates a simple form to with a textbox and submit button. It will allow the user to add an address to their trip list. The second is the map div. And the final part is an unordered list that we will add the various destinations to.
+			</p>
+			
+			<p>
+				Now to the JavaScript. I decided to use a client-side approach to this, as you would need to store information in a database to actually make this list useful.
+			</p>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>document.addEventListener("DOMContentLoaded", initMap);</li>
+					<li>document.getElementById("addLoc").addEventListener("click", addAddress);</li>
+					<li></li>
+					<li>var geocoder;</li>
+					<li>var map;</li>
+					<li>var numItems = 0;</li>
+					<li></li>
+					<li>function initMap() {</li>
+					<li>&nbsp&nbspgeocoder = new google.maps.Geocoder();</li>
+					<li>&nbsp&nbspvar latlng = new google.maps.LatLng(40.712, -74.006);</li>
+					<li>&nbsp&nbspvar mapOptions = {</li>
+					<li>&nbsp&nbsp&nbsp&nbspzoom: 8,</li>
+					<li>&nbsp&nbsp&nbsp&nbspcenter: latlng</li>
+					<li>&nbsp&nbsp}</li>
+					<li>&nbsp&nbspmap = new google.maps.Map(document.getElementById("map"), mapOptions);</li>
+					<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				This first section is our typical map initialization. The two things that are the event listener and the var numItems. The event listener for the addLoc button is set to call the addAddress function (the function that calls the Geocoder API). The numItems variable will keep track of the number of locations a user has added to the list. This will help give each button to load and delete locations a unique id.
+			</p>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>function addAddress() {</li>
+					<li>&nbsp&nbsp event.preventDefault();</li>
+					<li>&nbsp&nbsp var address = document.getElementById("address").value;</li>
+					<li>&nbsp&nbsp geocoder.geocode( { 'address': address}, function(results, status) {</li>
+					<li>&nbsp&nbsp&nbsp&nbsp if (status == google.maps.GeocoderStatus.OK) {</li>
+					<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp map.setCenter(results[0].geometry.location); //center map on returned LatLng location</li>
+					<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp //add item to list</li>
+					<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp addItem(address, results[0].geometry.location);</li>
+					<li>&nbsp&nbsp&nbsp&nbsp } else {</li>
+					<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp console.log("Geocode not successful: " + status);</li>
+					<li>&nbsp&nbsp }</li>
+					<li>});</li>
+				<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				The addAddress() function is similar to the codeAddress() function from the Geocoding API practice. The only notable differences are that the address is read from the "address" textbox and the geocoder calls addItem() if the request is successful. Let's take a look at addItem().
+			</p>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>function addItem(address, latLng) {</li>
+					<li>&nbsp&nbsp //add address text to list item</li>
+					<li>&nbsp&nbsp var item = document.createElement("li");</li>
+					<li>&nbsp&nbsp var text = document.createElement("h4");</li>
+					<li>&nbsp&nbsp text.textContent = address;</li>
+					<li>&nbsp&nbsp item.appendChild(text);</li>
+					<li></li>
+					<li>&nbsp&nbsp //add load button to list item</li>
+					<li>&nbsp&nbsp ++numItems;</li>
+					<li>&nbsp&nbsp var button = document.createElement("input");</li>
+					<li>&nbsp&nbsp button.setAttribute("id", "button" + numItems);</li>
+					<li>&nbsp&nbsp button.setAttribute("type", "submit");</li>
+					<li>&nbsp&nbsp button.setAttribute("value", "Load Location");</li>
+					<li>&nbsp&nbsp button.setAttribute("data-latlng", JSON.stringify(latLng)); //save LatLng object as JSON string in a data attribute</li>
+					<li>&nbsp&nbsp button.addEventListener("click", loadAddress);</li>
+					<li>&nbsp&nbsp item.appendChild(button);</li>
+					<li></li>
+					<li>&nbsp&nbsp//add delete button to list item</li>
+					<li>&nbsp&nbsp var delBut = document.createElement("input");</li>
+					<li>&nbsp&nbsp delBut.setAttribute("id", "delBut" + numItems);</li>
+					<li>&nbsp&nbsp delBut.setAttribute("type", "submit");</li>
+					<li>&nbsp&nbsp delBut.setAttribute("value", "Delete Location");</li>
+					<li>&nbsp&nbsp delBut.addEventListener("click", delAdd);</li>
+					<li>&nbsp&nbsp item.appendChild(delBut);</li>
+					<li></li>
+					<li>&nbsp&nbsp //add list item to list</li>
+					<li>&nbsp&nbsp var list = document.getElementById("tripList");</li>
+					<li>&nbsp&nbsp list.appendChild(item);</li>
+					<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				This is the code that builds our list. First, it creates a new list item, and adds a &lth4&gt tag with the address to it. Then it adds the load and delete location buttons. Finally it adds the list item to the unordered list we placed in the HTML. Some things to note: the load button gets a "data-latlng" attribute and the value of that attribute is a JSON string of the latLng object that we pass in from the geocoder results. This will let us change the location displayed on the map without needing to call the geocoder API again. Now let's look at the loadAddress function that is triggered on the click event for Load Location. Also notice how both buttons id attribute contain numItems, making them unique.
+			</p>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>function loadAddress(){</li>
+					<li>&nbsp&nbsp event.preventDefault();</li>
+					<li>&nbsp&nbsp var button = document.getElementById(this.id);</li>
+					<li>&nbsp&nbsp map.setCenter(JSON.parse(button.dataset.latlng));</li>
+					<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				This function simply prevents the default behavior of the button click, then centers the map on the location stored in the list. We use the latLng object stored in the data tag of this button by calling <code>JSON.parse(button.dataset.latlng)</code>.
+			</p>
+			
+			<p>
+				Now let's look at the last JavaScript function, the delAdd() function.
+			</p>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>function delAdd(){</li>
+					<li>&nbsp&nbsp event.preventDefault();</li>
+					<li>&nbsp&nbsp var li = document.getElementById(this.id).parentNode;</li>
+					<li>&nbsp&nbsp li.parentNode.removeChild(li);</li>
+					<li>&nbsp&nbsp --numItems;</li>
+					<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				This function gets the parent list item of the button that called the function. It then gets the parent of that list item and removes the list item child object, deleting the header and both buttons in the process.
+			</p>
+			
+			<p>
+				And there you have it, a fully functional trip planner! Well, functional until the user refreshes the page. You can see how this code works below.
+			</p>
+			
+			<form method="post">
+				<legend>Enter an address to add to your trip:</legend>
+				<input type="text" name="address" id="address">
+				<input id="addLoc" type="submit" value="Add Location">
+			</form>
+			
+			<br />
+			
+			<!-- Google Map div -->
+			<div id = "map" style="width: 600px; height: 450px;"></div>
+			
+			<ul id="tripList">
+			</ul>
+		</section>
+	</article>
+	<a href="/Part5" class="btn btn-default">Part 5</a>
+	<a href="/Part7" class="btn btn-default pull-right">Part 7</a>
+</div>
+
+<script src = "/scripts/planMap.js"></script>

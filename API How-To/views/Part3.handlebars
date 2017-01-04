@@ -1,0 +1,51 @@
+<!-- Part 3 -->
+<div class="container">
+	<article>
+		<h1>Part 3: Getting Started with JavaScript</h1>
+		<section>
+			<h2>Making the Map Better</h2>
+			<p>
+				Embedding maps is easy, fast, and can provide an adequate method for adding a map to a site. However, there are some limitations to what you can do with a simple embedded map. If you want to do more than embed an interactive map, you need to use JavaScript. Using JavaScript allows you to plot routes; draw shapes on the map; use heatmaps to show temperature, traffic, population density, etc.; or customize the map's appearance (among many other things). 
+			</p>
+			<p>
+				So, let's start with a adding a basic map using JavaScript. First, you should add a &ltdiv&gt to your HTML page and give it an id (I use "map"). This div will be where the map appears and will be empty. Then, to add the map, use this script:
+			</p>
+				<code class = "prettyprint">
+					<ol>
+						<li>var map;</li>
+						<li>function initMap() {</li>
+						<li>&nbsp&nbspmap = new google.maps.Map(document.getElementById('map'), {</li>
+						<li>&nbsp&nbsp&nbsp&nbspcenter: {lat: 29.976, lng: 31.132},</li>
+						<li>&nbsp&nbsp&nbsp&nbspzoom: 16</li>
+						<li>&nbsp&nbsp});</li>
+						<li>}</li>
+					</ol>
+				</code>
+			<p>
+				Although this is a fairly short snippet of code, I would still recommend adding it to a separate .js file as doing anything useful with this object is not so short. You also need to add this script tag at the end of the body in your HTML file:
+			</p>
+				<code class = "prettyprint">
+					&ltscript async defer src="https://maps.googleapis.com/maps/api/js?key=<strong>APIKEY</strong>&callback=initMap"&gt&lt/script&gt
+				</code>
+				
+				<div>As well as some css styling for the map div:</div>
+				
+				<code class = "prettyprint">
+					&ltdiv id = "map" style="width: 600px; height: 450px;"&gt&lt/div&gt
+				</code>
+				
+				<div>With that done, here is the map that those coordinates produce:</div>
+				
+				<!-- Google Map div -->
+				<div id = "map" style="width: 600px; height: 450px;"></div>
+				
+				<p id = "test">
+					As you can see, this map is of the the Pyramids at Giza! But there's a problem: the latitude and longitude coordinates. Right now, the map is no better than a simple embedded map (with the downside that a lot of traffic will cost you money) and you have to provide coordinates to make it work. If you try to expand this to allow users to search for locations, they would have to look up the latitude and longitude beforehand. Luckily there is a solution: Geocoding.
+				</p>
+		</section>
+	</article>
+	<a href="/Part2" class="btn btn-default">Part 2</a>
+	<a href="/Part4" class="btn btn-default pull-right">Part 4</a>
+</div>
+
+<script src = "/scripts/jsMap.js"></script>

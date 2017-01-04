@@ -1,0 +1,78 @@
+<!-- Part 4 -->
+<div class="container">
+	<article>
+		<h1>Part 4: Geocoding</h1>
+		<h2>Time for things to get Interesting</h2>
+		<p>
+			As I mentioned earlier, the basic JavaScript map is not really any more useful than the embedded map. If you need to draw shapes, or create a GPS, or get heatmap overlays for the map though, you will need to use the Javascript maps. For this guide however, I will keep it simple and create a trip planner that allows people to create routes between two addresses that they enter.
+		</p>
+		<p>
+			In order to do that, we need to provide a way for users to input addresses in a way that is easy for them (i.e. not as latitude and longitude coordinates). So we need to convert those addresses from human readable addresses into latitude and longitude coordinates. Which is where the Geocoding API comes in.
+		</p>
+			Unlike with the JavaScript API, calling the Geocoding API is asynchronous only as the API needs to call an external server. The good news is that you want this to be an asynchronous call as loading these maps is slow and users won't want to wait until the map has loaded for the entire page to load.
+		<p>
+		<p>
+			First, we need to know the information to send to the API. You need to pass a GeocoderRequest object to the Geocoder.geocode() method. This object must contain either an address string, a location LatLng, or a placeId and can only have one of these. You can also add a bounds, componentRestrictions, or region field for specific needs (more on these later).
+		</p>
+		<p>
+			The address field is simply a string address that you want to geocode. This can be for a specific address (e.g. “123 Main St, Some City, Some State”), or an intersection (e.g. “59th and 8th, NYC”), or even a city itself. Obviously, the more specific the address is, the more likely you are to get the correct location. For example, sending the address “pyramid, egypt” will geocode to Pyramid St, Egypt, Arkansas and “great pyramid, egypt” will return ZERO_RESULTS (though “great pyramids, egypt” and “pyramids, egypt” both return the expected location).
+		</p>
+		<p>
+			Location is a LatLng or LatLngLiteral object that contains the latitude and longitude values that you would like to get an address for. Passing the geocoder a location will return an array of strings in of most to least specific addresses (e.g. index 0 would have a complete street address while index 7 would have just the country name). The final method is using a placeID. placeIDs are text codes that are unique to a certain location (e.g. a buisiness, landmark, or park). Since placeIDs do not change, it’s a good way to repeatedly get information from the same place.
+		</p>
+		<p>
+			As for the optional parameters, bounds lets you set latitude and longitude bounds on your query that will influence the geocoder’s results. If a location is within the bounds, it is more likely to be shown than locations outside the bounds. componentRestrictions allow you to filter results based on the route, locality (city or town), administrativeArea (e.g. a State or Province), postalCode, or country. Unlike the bounds, componentRestrictions will only return results that match all the filters. Finally, you can pass a region code to influence the results (like the bounds, results falling outside of the passed parameter will still appear). For a full list of codes see <a href = “http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry”>here</a>.
+		</p>
+		<p>
+			Since the end goal is to create a trip planner, I am not going to cover passing a location or placeId, or passing any of the optional parameters to the geocoder. The methods involved are very similar to those of the address.
+		</p>
+		<div>We start out similar to the base JavaScript function to initialize the map at the start:</div>
+		<code class = "prettyprint">
+			<ol>
+				<li>var geocoder;</li>
+				<li>var map;</li>
+				<li>function initMap() {</li>
+				<li>&nbsp&nbspgeocoder = new google.maps.Geocoder();</li>
+				<li>&nbsp&nbspvar latlng = new google.maps.LatLng( 29.976, 31.132);</li>
+				<li>&nbsp&nbspvar mapOptions = {</li>
+				<li>&nbsp&nbsp&nbsp&nbspzoom: 8,</li>
+				<li>&nbsp&nbsp&nbsp&nbspcenter: latlng</li>
+				<li>&nbsp&nbsp}</li>
+				<li>&nbsp&nbspmap = new google.maps.Map(document.getElementById("map"), mapOptions);</li>
+				<li>}</li>
+			</ol>
+		</code>
+		<div>This will create a new geocoder object, and initialize a map that is centered on the Great Pyramids.</div>
+		
+		<div>Now, we need a second function:</div>
+		<code class = "prettyprint">
+			<ol>
+				<li>function codeAddress() {</li>
+				<li>&nbsp&nbspvar address = "New York City";</li>
+				<li>&nbsp&nbspgeocoder.geocode( { 'address': address}, function(results, status) {</li>
+				<li>&nbsp&nbsp&nbsp&nbspif (status == google.maps.GeocoderStatus.OK) {</li>
+				<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspmap.setCenter(results[0].geometry.location);</li>
+				<li>&nbsp&nbsp&nbsp&nbsp} else {</li>
+				<li>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspconsole.log("Geocode not successful: " + status);</li>
+				<li>&nbsp&nbsp&nbsp&nbsp}</li>
+				<li>&nbsp&nbsp});</li>
+				<li>}</li>
+			</ol>
+		</code>
+		
+		<p>
+			Now, the way that I have set this function up, it is not very useful. The address is hard-coded in, meaning that, again, it’s not much more useful to us than a simple embedded map. However, this is just an example to show how the call to geocode() works. You need to pass an object with one of the required parameters and any number of the optional parameters (in this case, I just pass the address), and a function that will execute when the API responds. I then check if the Geocoder was successful and center the map to the returned location. If there was an error, I log it to the console. All you would need to do is replace the literal string "New York City" with a call to document.getElementById() and you could get a string that the user input.
+		</p>
+		<p>
+			Finally, you should call the initMap() function once the page has loaded. I chose to add an event listener <code>document.addEventListener('DOMContentLoaded', initMap);</code> so the function would intialize the map once the DOM had fully loaded. You also will want to call codeAddress() at some point. With a simple example like this, I just put a call to the function in initMap() after the map was created. As before, not particularly useful but adding an event listener to a button press works well (and is what we will do with the trip planner).
+		</p>
+		<div id="map" style="width: 600px; height: 450px;"></div>
+		<p>
+			So there it is, a map created by sending "New York City" to the geocoding API and using the returned information to center the map. However, the location is not the only thing returned by the geocoding API. The next section will cover what is returned and some of the things you can do with that information.
+		</p>
+	</article>
+	<a href="/Part3" class="btn btn-default">Part 3</a>
+	<a href="/Part5" class="btn btn-default pull-right">Part 5</a>
+</div>
+
+<script src = "scripts/geocode.js"></script>

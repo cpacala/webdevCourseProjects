@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>AJAX</title>
+		<!-- <link rel="stylesheet" href="style.css"> -->
+	</head>
+	<body>
+    <!-- Get Form -->
+		<form>
+			<fieldset>
+				<legend>Weather:</legend>
+				<!-- Text Boxes -->
+				
+				<div>Enter a Zip Code or City, if both are entere the Zip Code will be used:</div>
+				<label>Zip Code:
+					<input id="zip" type="number" name="numerical_input" size="30" maxlength="50">
+				</label>
+				<br />
+				<label>City:
+					<input id="city" type="text" name="text_input" size="30" maxlength="100">
+				</label>
+				<br />
+				<input id="weathSub" type="submit" value="Submit" />
+			</fieldset>
+		</form>
+		
+		<!-- Weather Data -->
+		<ul>
+			<li id="cityWeath">City: </li>
+			<li id="temp">Temperature: </li>
+			<li id="currWeath">Current Weather: </li>
+			<li id="humidity">Humidity: </li>
+		</ul>
+		
+		<!-- Post Form -->
+		<form>
+			<fieldset>
+				<legend>Post Data:</legend>
+				<!-- Text Boxes -->
+				<label>Key 1: 
+					<input id="key1" type="text" name="key1" size="30" maxlength="100">
+				</label>
+				<label>Value 1: 
+					<input id="value1" type="text" name="value1" size="30" maxlength="100">
+				</label>
+				<br />
+				<label>Key 2: 
+					<input id="key2" type="text" name="key2" size="30" maxlength="100">
+				</label>
+				<label>Value 2:
+					<input id="value2" type="text" name="value2" size="30" maxlength="100">
+				</label>
+				<br />
+				<label>Key 3: 
+					<input id="key3" type="text" name="key3" size="30" maxlength="100">
+				</label>
+				<label>Value 3:
+					<input id="value3" type="text" name="value3" size="30" maxlength="100">
+				</label>
+				<br />
+				<input id="postSub" type="submit" value="Submit" />
+			</fieldset>
+		</form>
+	
+		<!-- Response Data -->
+		<ul>
+			<li id="retKey1">Key 1: </li>
+			<li id="retVal1">Value 1: </li>
+			<li id="retKey2">Key 2: </li>
+			<li id="retVal2">Value 2: </li>
+			<li id="retKey3">Key 3: </li>
+			<li id="retVal3">Value 3: </li>
+		</ul>
+		
+	</body>
+	<script src = "script.js"></script>
+</html>

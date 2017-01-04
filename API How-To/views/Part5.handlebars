@@ -1,0 +1,61 @@
+<!-- Part 5 -->
+<div class="container">
+	<article>
+		<h1>Part 5: Info from Geocoding</h1>
+		<section>
+			<h2>What the Geocoding API gives you</h2>
+			<p>
+				In the previous guide, we only used a single element of the returned GeocoderResult object. However, the geocoder returns more information than the latitude and longitude of the address. In fact, it can even return multiple objects.
+			</p>
+			<div>So, let's look at the structure of the GeocoderResult object:</div>
+			
+			<code class="prettyprint">
+				<ol>
+					<li>results[]: {</li>
+					<li>&nbsp&nbsptypes[]:string,</li>
+					<li>&nbsp&nbspformatted_address: string,</li>
+					<li>&nbsp&nbspaddress_components[]: {</li>
+					<li>&nbsp&nbsp&nbsp&nbspshort_name: string,</li>
+					<li>&nbsp&nbsp&nbsp&nbsplong_name: string,</li>
+					<li>&nbsp&nbsp&nbsp&nbsppostcode_localities[]: string,</li>
+					<li>&nbsp&nbsp&nbsp&nbsptypes[]: string</li>
+					<li>&nbsp&nbsp},</li>
+					<li>&nbsp&nbsppartial_match: boolean,</li>
+					<li>&nbsp&nbspplace_id: string,</li>
+					<li>&nbsp&nbsppostcode_localities[]: string</li>
+					<li>&nbsp&nbspgeometry: {</li>
+					<li>&nbsp&nbsp&nbsp&nbsplocation: LatLng,</li>
+					<li>&nbsp&nbsp&nbsp&nbsplocation_type: GeocoderLocationType,</li>
+					<li>&nbsp&nbsp&nbsp&nbspviewport: LatLngBounds,</li>
+					<li>&nbsp&nbsp&nbsp&nbspbounds: LatLngBounds</li>
+					<li>&nbsp&nbsp}</li>
+					<li>}</li>
+				</ol>
+			</code>
+			
+			<p>
+				As I already mentioned, results[] is an array of one or more GeocoderResult objects. The types[] field is an array that holds information on the type of feature that was returned (e.g. "locality" if it is a city or "colloquial_area" if it is a commonly-used name for an area, like Hell’s Kitchen in NYC). There are twenty different types that may be returned.
+			</p>
+			<p>
+				The next field, formatted_address, is a string of the address of the location (e.g. 123 Main St, City, State). address_components[] is an array containing the different pieces of the formatted_address. For example, 123 Main St would be one address_component (the street address) while City is another, and State a third.
+			</p>
+			<p>
+				partial_match is a flag that indicates the geocoder was unable to find an exact match for the request. It may have found a partial match for the address, or may have found two potential addresses (e.g. if a town has a Westerly and a Westcott Rd, only typing “21 West St” would set the partial_flag as the address could match either one. This is most often an indication that there is a typo in the request.
+			</p>
+			<p>
+				The GeocoderResult object also contains a place_id field. This is the unique string identifier that I mentioned on the previous page. You can use this with the Google Places API to get more information about a location. It is also a convenient way to store a location if you need to use it repeatedly.
+			</p>
+			<p>
+				The postcode_localities[] field is an array containing all localities in a postal code. This array is only returned when the result is a postal code that has multiple localities (i.e. if it has multiple towns or cities).
+			</p>
+			<p>
+				Finally, we have the geometry object.Geometry is an object that contains the location, location_type, viewport, and bounds. Location is a LatLng object containing a latitude and longitude value. location_type has more information about the location. Currently this includes ROOFTOP (precise geocode), RANGE_INTERPOLATED (result is an approximation between two points, for example the center of a road between two intersections), GEOMETRIC_CENTER (result is the center of am area like a street or a region), and APPROXIMATE (the result is an approximation). The final two fields, viewport and bounds, store information to help format the map. viewport is the recommended viewport for the result and bounds is an optional return that stores the LatLngBounds that will contain the entire result. Though these fields usually match, there are some areas where the bounds and viewport are not the same (for example, the Farallon Islands are 30 miles off the coast of San Franscisco but are part of the city so the bounds will include them but the viewport will not).
+			</p>
+			<p>
+				And there we have it! There's quite a bit of information stored in the returned object. Now let's do something with it!
+			</p>
+		</section>
+	</article>
+	<a href="/Part4" class="btn btn-default">Part 4</a>
+	<a href="/Part6" class="btn btn-default pull-right">Part 6</a>
+</div>
