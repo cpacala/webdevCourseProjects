@@ -10,11 +10,11 @@ Uses Ajax to GET weather data from openweathermap.org and POST key value pairs t
 ### DB: 
 A workout tracker where workouts are stored in a database. Allows users to add new workouts and edit or delete old workouts
 
-## DOM and Events:
+### DOM and Events:
 A simple app to demonstrate event handling on button presses and navigating the DOM using JS
 
-## GET and POST checker:
+### GET and POST checker:
 A simple assignment to demonstrate using GET and POST functions
 
-## Trip Planner:
+### Trip Planner:
 A simple server side trip planner that displays the current trip when a GET request is received and update the trip when a POST request is received
